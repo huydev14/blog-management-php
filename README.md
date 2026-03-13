@@ -1,4 +1,4 @@
-# 📝 DevBlog CMS
+# DevBlog CMS
 
 A modern blog management system built with PHP MVC architecture, featuring a comprehensive admin panel with full CRUD operations for users, posts, and categories management.
 
@@ -7,7 +7,7 @@ A modern blog management system built with PHP MVC architecture, featuring a com
 
 ## 📸 Screenshots
 
-### 🎛️ Admin Panel
+### Admin Panel
 
 <table>
   <tr>
@@ -32,7 +32,7 @@ A modern blog management system built with PHP MVC architecture, featuring a com
   </tr>
 </table>
 
-### 🌐 Client Pages
+### Client Pages
 
 <table>
   <tr>
@@ -47,15 +47,15 @@ A modern blog management system built with PHP MVC architecture, featuring a com
   </tr>
 </table>
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication & Authorization
+### Authentication & Authorization
 
 - Session-based authentication (login/logout)
 - User registration with email verification
 - Role-based access control (Admin, Editor, Author)
 
-### 📊 Content Management
+### Content Management
 
 - **Posts**: Full CRUD operations with search, filter, and pagination
 - **Categories**: Manage blog categories with post count tracking
@@ -63,38 +63,24 @@ A modern blog management system built with PHP MVC architecture, featuring a com
 - Form validation for all inputs
 - Image upload support for user avatars and post thumbnails
 
-### 🛡️ Security
+### Security
 
 - PDO prepared statements (SQL injection prevention)
 - XSS and CSRF protection
 - Bcrypt password hashing
 - Secure file upload validation
 
-### 🎨 User Interface
+## Tech Stack
 
-- Responsive admin panel (AdminLTE 4)
-- Clean and modern client-facing blog
-- Mobile-friendly design
+**Backend:** PHP, MySQL, PDO, Composer (Dotenv, PHPMailer)  
+**Frontend:** AdminLTE 4, Bootstrap, Font Awesome
 
-## 🛠 Tech Stack
-
-**Backend:** PHP 8.2+, MySQL 8.0, PDO, Composer (PSR-4 autoload), PHP-DotEnv, PHPMailer  
-**Frontend:** AdminLTE 4, Bootstrap 5.3, Font Awesome
-
-## 📦 Requirements
-
-- PHP >= 8.2
-- MySQL >= 8.0 or MariaDB >= 10.4
-- Composer
-- Apache/Nginx with mod_rewrite enabled
-- XAMPP/WAMP/MAMP
-
-## 🚀 Installation
+## Installation
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/trgiahuy14/devblog-cms-php.git
+git clone https://github.com/huydev14/devblog-cms-php.git
 cd devblog-cms-php
 ```
 
@@ -132,7 +118,7 @@ MAIL_USER=your-email@gmail.com
 MAIL_PASS=your-app-password
 ```
 
-**📧 Gmail Setup (Optional):**
+**Gmail Setup (Optional):**
 
 If you want to enable email features:
 
@@ -142,13 +128,7 @@ If you want to enable email features:
 
 ### 4. Setup Database
 
-**Option A: Using MySQL CLI**
-
-```bash
-mysql -u root -p < database/devblog_db.sql
-```
-
-**Option B: Using phpMyAdmin**
+**phpMyAdmin**
 
 1. Open phpMyAdmin
 2. Create a new database named `devblog_db`
