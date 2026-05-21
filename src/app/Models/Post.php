@@ -58,6 +58,30 @@ final class Post extends Model
         );
     }
 
+    /** Get comments for a post */
+    public function getCommentsByPostId(int $postId): array
+    {
+        return $this->getAll(
+            'SELECT
+                c.*,
+                u.fullname as user_name,
+                u.avatar as user_avatar
+             FROM comments c
+             LEFT JOIN users u ON c.user_id = u.id
+             WHERE c.post_id = :post_id
+             ORDER BY c.created_at ASC',
+            [
+                ':post_id' => $postId,
+            ]
+        );
+    }
+
+    /** Create a comment */
+    public function createComment(array $commentData): bool
+    {
+        return $this->insert('comments', $commentData);
+    }
+
 
     /** Count all posts */
     public function countPosts(): int

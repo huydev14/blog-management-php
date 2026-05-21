@@ -91,7 +91,6 @@ CREATE TABLE `comments` (
   `author_name` varchar(100) DEFAULT NULL,
   `author_email` varchar(100) DEFAULT NULL,
   `content` text NOT NULL,
-  `status` enum('pending','approved','spam','trash') DEFAULT 'pending',
   `ip_address` varchar(45) DEFAULT NULL,
   `user_agent` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -102,25 +101,25 @@ CREATE TABLE `comments` (
 -- Dumping data for table `comments`
 --
 
-INSERT INTO `comments` (`id`, `post_id`, `user_id`, `parent_id`, `author_name`, `author_email`, `content`, `status`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'Bài viết rất chi tiết và dễ hiểu. Cảm ơn bạn đã chia sẻ!', 'approved', '192.168.1.10', 'Mozilla/5.0', '2025-11-18 09:30:00', '2025-11-18 09:30:00'),
-(2, 1, 5, 1, 'Phạm Thu Hà', 'thudev@gmail.com', 'Mình cũng đồng ý. Laravel 11 có nhiều cải tiến đáng chú ý.', 'approved', '192.168.1.11', 'Mozilla/5.0', '2025-11-18 10:15:00', '2025-11-18 10:15:00'),
-(3, 1, NULL, NULL, 'Nguyễn Văn B', 'nguyenvanb@gmail.com', 'Cho mình hỏi về phần cấu hình database với PostgreSQL được không?', 'approved', '192.168.1.12', 'Mozilla/5.0', '2025-11-18 14:20:00', '2025-11-18 14:20:00'),
-(4, 2, 3, NULL, 'Nguyễn Văn A', 'editor@devblog.com', 'Design patterns là kiến thức rất quan trọng. Bài viết hay!', 'approved', '192.168.1.13', 'Mozilla/5.0', '2025-11-17 11:45:00', '2025-11-17 11:45:00'),
-(5, 2, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'Mình thích Factory Pattern nhất, rất linh hoạt.', 'approved', '192.168.1.10', 'Mozilla/5.0', '2025-11-17 13:20:00', '2025-11-17 13:20:00'),
-(6, 2, NULL, NULL, 'Trần Thị C', 'tranthic@gmail.com', 'Có thể giải thích thêm về Decorator Pattern không ạ?', 'approved', '192.168.1.14', 'Mozilla/5.0', '2025-11-17 15:30:00', '2025-11-17 15:30:00'),
-(7, 2, 5, 6, 'Phạm Thu Hà', 'thudev@gmail.com', 'Decorator Pattern cho phép thêm behavior mới vào object mà không thay đổi structure.', 'approved', '192.168.1.11', 'Mozilla/5.0', '2025-11-17 16:00:00', '2025-11-17 16:00:00'),
-(8, 2, NULL, NULL, 'Developer X', 'devx@example.com', 'Bài hay nhưng có thể thêm code examples không?', 'pending', '192.168.1.15', 'Mozilla/5.0', '2025-11-17 17:45:00', '2025-11-17 17:45:00'),
-(9, 3, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'React Hooks thực sự thay đổi cách viết React components!', 'approved', '192.168.1.10', 'Mozilla/5.0', '2025-11-16 15:30:00', '2025-11-16 15:30:00'),
-(10, 3, NULL, NULL, 'Nguyễn D', 'nguyend@gmail.com', 'useEffect còn nhiều điều cần học. Bài viết giúp ích nhiều!', 'approved', '192.168.1.16', 'Mozilla/5.0', '2025-11-16 18:20:00', '2025-11-16 18:20:00'),
-(11, 4, 3, NULL, 'Nguyễn Văn A', 'editor@devblog.com', 'Indexing strategy rất quan trọng cho performance. Bài viết chất lượng!', 'approved', '192.168.1.13', 'Mozilla/5.0', '2025-11-15 10:30:00', '2025-11-15 10:30:00'),
-(12, 4, 5, NULL, 'Phạm Thu Hà', 'thudev@gmail.com', 'Composite index nên được dùng như thế nào cho đúng?', 'approved', '192.168.1.11', 'Mozilla/5.0', '2025-11-15 11:45:00', '2025-11-15 11:45:00'),
-(13, 4, 4, 12, 'Lê Văn Minh', 'minhdev@gmail.com', 'Composite index nên đặt column thường xuyên query nhất ở đầu tiên.', 'approved', '192.168.1.10', 'Mozilla/5.0', '2025-11-15 13:00:00', '2025-11-15 13:00:00'),
-(14, 4, NULL, NULL, 'DBA Pro', 'dba@example.com', 'Đừng quên analyze query với EXPLAIN!', 'approved', '192.168.1.17', 'Mozilla/5.0', '2025-11-15 14:20:00', '2025-11-15 14:20:00'),
-(15, 5, 5, NULL, 'Phạm Thu Hà', 'thudev@gmail.com', 'ES2024 có nhiều tính năng hay quá! Đặc biệt là Temporal API.', 'approved', '192.168.1.11', 'Mozilla/5.0', '2025-11-14 17:30:00', '2025-11-14 17:30:00'),
-(16, 6, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'Node.js cluster mode giúp tận dụng multi-core rất tốt.', 'approved', '192.168.1.10', 'Mozilla/5.0', '2025-11-13 12:15:00', '2025-11-13 12:15:00'),
-(17, 8, 3, NULL, 'Nguyễn Văn A', 'editor@devblog.com', 'RESTful API design principles rất quan trọng cho mọi backend developer.', 'approved', '192.168.1.13', 'Mozilla/5.0', '2025-11-11 11:30:00', '2025-11-11 11:30:00'),
-(18, 10, 2, NULL, 'Trần Gia Huy', 'trgiahuy14@gmail.com', 'PHP 8.3 mang lại nhiều cải tiến về performance và developer experience!', 'approved', '192.168.1.20', 'Mozilla/5.0', '2025-11-09 10:45:00', '2025-11-09 10:45:00');
+INSERT INTO `comments` (`id`, `post_id`, `user_id`, `parent_id`, `author_name`, `author_email`, `content`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
+(1, 1, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'Bài viết rất chi tiết và dễ hiểu. Cảm ơn bạn đã chia sẻ!', '192.168.1.10', 'Mozilla/5.0', '2025-11-18 09:30:00', '2025-11-18 09:30:00'),
+(2, 1, 5, 1, 'Phạm Thu Hà', 'thudev@gmail.com', 'Mình cũng đồng ý. Laravel 11 có nhiều cải tiến đáng chú ý.', '192.168.1.11', 'Mozilla/5.0', '2025-11-18 10:15:00', '2025-11-18 10:15:00'),
+(3, 1, NULL, NULL, 'Nguyễn Văn B', 'nguyenvanb@gmail.com', 'Cho mình hỏi về phần cấu hình database với PostgreSQL được không?', '192.168.1.12', 'Mozilla/5.0', '2025-11-18 14:20:00', '2025-11-18 14:20:00'),
+(4, 2, 3, NULL, 'Nguyễn Văn A', 'editor@devblog.com', 'Design patterns là kiến thức rất quan trọng. Bài viết hay!', '192.168.1.13', 'Mozilla/5.0', '2025-11-17 11:45:00', '2025-11-17 11:45:00'),
+(5, 2, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'Mình thích Factory Pattern nhất, rất linh hoạt.', '192.168.1.10', 'Mozilla/5.0', '2025-11-17 13:20:00', '2025-11-17 13:20:00'),
+(6, 2, NULL, NULL, 'Trần Thị C', 'tranthic@gmail.com', 'Có thể giải thích thêm về Decorator Pattern không ạ?', '192.168.1.14', 'Mozilla/5.0', '2025-11-17 15:30:00', '2025-11-17 15:30:00'),
+(7, 2, 5, 6, 'Phạm Thu Hà', 'thudev@gmail.com', 'Decorator Pattern cho phép thêm behavior mới vào object mà không thay đổi structure.', '192.168.1.11', 'Mozilla/5.0', '2025-11-17 16:00:00', '2025-11-17 16:00:00'),
+(8, 2, NULL, NULL, 'Developer X', 'devx@example.com', 'Bài hay nhưng có thể thêm code examples không?', '192.168.1.15', 'Mozilla/5.0', '2025-11-17 17:45:00', '2025-11-17 17:45:00'),
+(9, 3, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'React Hooks thực sự thay đổi cách viết React components!', '192.168.1.10', 'Mozilla/5.0', '2025-11-16 15:30:00', '2025-11-16 15:30:00'),
+(10, 3, NULL, NULL, 'Nguyễn D', 'nguyend@gmail.com', 'useEffect còn nhiều điều cần học. Bài viết giúp ích nhiều!', '192.168.1.16', 'Mozilla/5.0', '2025-11-16 18:20:00', '2025-11-16 18:20:00'),
+(11, 4, 3, NULL, 'Nguyễn Văn A', 'editor@devblog.com', 'Indexing strategy rất quan trọng cho performance. Bài viết chất lượng!', '192.168.1.13', 'Mozilla/5.0', '2025-11-15 10:30:00', '2025-11-15 10:30:00'),
+(12, 4, 5, NULL, 'Phạm Thu Hà', 'thudev@gmail.com', 'Composite index nên được dùng như thế nào cho đúng?', '192.168.1.11', 'Mozilla/5.0', '2025-11-15 11:45:00', '2025-11-15 11:45:00'),
+(13, 4, 4, 12, 'Lê Văn Minh', 'minhdev@gmail.com', 'Composite index nên đặt column thường xuyên query nhất ở đầu tiên.', '192.168.1.10', 'Mozilla/5.0', '2025-11-15 13:00:00', '2025-11-15 13:00:00'),
+(14, 4, NULL, NULL, 'DBA Pro', 'dba@example.com', 'Đừng quên analyze query với EXPLAIN!', '192.168.1.17', 'Mozilla/5.0', '2025-11-15 14:20:00', '2025-11-15 14:20:00'),
+(15, 5, 5, NULL, 'Phạm Thu Hà', 'thudev@gmail.com', 'ES2024 có nhiều tính năng hay quá! Đặc biệt là Temporal API.', '192.168.1.11', 'Mozilla/5.0', '2025-11-14 17:30:00', '2025-11-14 17:30:00'),
+(16, 6, 4, NULL, 'Lê Văn Minh', 'minhdev@gmail.com', 'Node.js cluster mode giúp tận dụng multi-core rất tốt.', '192.168.1.10', 'Mozilla/5.0', '2025-11-13 12:15:00', '2025-11-13 12:15:00'),
+(17, 8, 3, NULL, 'Nguyễn Văn A', 'editor@devblog.com', 'RESTful API design principles rất quan trọng cho mọi backend developer.', '192.168.1.13', 'Mozilla/5.0', '2025-11-11 11:30:00', '2025-11-11 11:30:00'),
+(18, 10, 2, NULL, 'Trần Gia Huy', 'trgiahuy14@gmail.com', 'PHP 8.3 mang lại nhiều cải tiến về performance và developer experience!', '192.168.1.20', 'Mozilla/5.0', '2025-11-09 10:45:00', '2025-11-09 10:45:00');
 
 -- --------------------------------------------------------
 
@@ -311,7 +310,6 @@ ALTER TABLE `comments`
   ADD KEY `idx_post_id` (`post_id`),
   ADD KEY `idx_user_id` (`user_id`),
   ADD KEY `idx_parent_id` (`parent_id`),
-  ADD KEY `idx_status` (`status`),
   ADD KEY `idx_created_at` (`created_at`);
 
 --

@@ -44,6 +44,9 @@ final class PostController extends Controller
         // Get related posts (same category)
         $relatedPosts = $this->getRelatedPosts((int)$post['category_id'], $postId);
 
+        // Get comments
+        $comments = $this->postModel->getCommentsByPostId($postId);
+
         // Get trending posts for sidebar
         $trendingPosts = $this->homeModel->getTrendingPosts(5);
 
@@ -55,12 +58,62 @@ final class PostController extends Controller
                 'title' => htmlspecialchars($post['title']) . ' - DevBlog'
             ],
             'post' => $post,
+            'comments' => $comments,
             'relatedPosts' => $relatedPosts,
             'trendingPosts' => $trendingPosts,
             'categories' => $categories
         ];
 
         $this->view->render('client/post-detail', 'client', $data);
+    }
+
+    /** Submit a public comment */
+    public function submitComment(): void
+    {
+        $postId = isset($_POST['post_id']) ? (int)$_POST['post_id'] : 0;
+        $content = trim((string)($_POST['content'] ?? ''));
+        $authorName = trim((string)($_POST['author_name'] ?? ''));
+        $authorEmail = trim((string)($_POST['author_email'] ?? ''));
+
+        if ($postId <= 0) {
+            redirect('/');
+        }
+
+        if ($content === '') {
+            $_SESSION['comment_error'] = 'Please write a comment before submitting.';
+            redirect('/post?id=' . $postId);
+        }
+
+        if ($authorEmail !== '' && !filter_var($authorEmail, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['comment_error'] = 'Please enter a valid email address.';
+            redirect('/post?id=' . $postId);
+        }
+
+        $commentData = [
+            'post_id' => $postId,
+            'user_id' => null,
+            'parent_id' => null,
+            'author_name' => $authorName !== '' ? $authorName : 'Anonymous',
+            'author_email' => $authorEmail !== '' ? $authorEmail : null,
+            'content' => $content,
+            'ip_address' => $_SERVER['REMOTE_ADDR'] ?? null,
+            'user_agent' => substr((string)($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255),
+        ];
+
+        try {
+            $saved = $this->postModel->createComment($commentData);
+            $_SESSION[$saved ? 'comment_success' : 'comment_error'] = $saved
+                ? 'Thanks. Your comment has been posted.'
+                : 'Unable to submit your comment. Please try again.';
+        } catch (\Exception $e) {
+            Logger::error('Error creating comment', [
+                'message' => $e->getMessage(),
+                'post_id' => $postId,
+            ]);
+            $_SESSION['comment_error'] = 'Unable to submit your comment. Please try again.';
+        }
+
+        redirect('/post?id=' . $postId);
     }
 
     /** Increment post view count */

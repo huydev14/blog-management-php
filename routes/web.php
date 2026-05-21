@@ -59,6 +59,7 @@ $router->get('/', 'HomeController@index');
 $router->get('/archive', 'HomeController@archive');
 $router->get('/about', 'HomeController@about');
 $router->get('/post', 'PostController@show');
+$router->post('/post/comment', 'PostController@submitComment');
 
 // For debug
 // echo '<pre>';
