@@ -16,8 +16,8 @@ define('APP_NAME', $_ENV['APP_NAME'] ?? APP_NAME);
 define('APP_DEBUG', filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOLEAN));
 
 // URLs
-define('BASE_URL', $_ENV['BASE_URL']);            // http://localhost/DevBlog-PHP-MVC
-define('PUBLIC_URL', BASE_URL . '/public');      //  http://localhost/DevBlog-PHP-MVC/public
+define('BASE_URL', $_ENV['BASE_URL']);    // http://localhost/DevBlog-PHP-MVC
+define('PUBLIC_URL', BASE_URL);
 
 // Path configuration
 define('APP_BASE_PATH', $_ENV['APP_BASE_PATH']); //  /DevBlog-PHP-MVC

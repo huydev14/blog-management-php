@@ -1,12 +1,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Set base path for rewrite (adjust based on your folder structure)
-    RewriteBase /devblog-cms-php/public/
+    # Set base path for rewrite
+    RewriteBase /
     
-    # Redirect to index.php if not a file or directory
+    # Don't rewrite if it's a real file or directory
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Rewrite to index.php for routing
     RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
 </IfModule>
 
