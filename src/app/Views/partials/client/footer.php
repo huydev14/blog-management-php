@@ -1,153 +1,143 @@
 <!-- Footer Section -->
-<footer class="bg-dark text-white pt-5 pb-4 mt-5">
-    <div class="container">
-        <div class="row">
-            <!-- About Section -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <h5 class="mb-3">
-                    <i class="fas fa-code me-2 text-primary"></i>DevBlog<span class="text-primary">.vn</span>
-                </h5>
-                <p class="text-white-50">
-                    Blog chia sẻ kiến thức lập trình, kinh nghiệm thực tế và xu hướng công nghệ mới nhất.
-                    Nơi developer Việt kết nối và cùng nhau phát triển.
-                </p>
-                <div class="social-links mt-3">
-                    <a href="#" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="#" class="btn btn-outline-primary btn-sm me-2" title="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="btn btn-outline-primary btn-sm me-2" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="btn btn-outline-primary btn-sm" title="YouTube">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h5 class="text-primary mb-3">Khám phá</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <a href="<?= BASE_URL ?>" class="text-white-50 text-decoration-none hover-link">
-                            <i class="fas fa-chevron-right me-2"></i>Trang chủ
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="<?= BASE_URL ?>/authors" class="text-white-50 text-decoration-none hover-link">
-                            <i class="fas fa-chevron-right me-2"></i>Tác giả
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="<?= BASE_URL ?>/about" class="text-white-50 text-decoration-none hover-link">
-                            <i class="fas fa-chevron-right me-2"></i>Giới thiệu
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="<?= BASE_URL ?>/login" class="text-white-50 text-decoration-none hover-link">
-                            <i class="fas fa-chevron-right me-2"></i>Viết bài
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Categories -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="text-primary mb-3">Chủ đề hot</h5>
-                <ul class="list-unstyled">
-                    <?php if (!empty($categories)): ?>
-                        <?php foreach (array_slice($categories, 0, 6) as $category): ?>
-                            <li class="mb-2">
-                                <a href="<?= BASE_URL ?>/category?id=<?= $category['id'] ?>" class="text-white-50 text-decoration-none hover-link">
-                                    <i class="fas fa-tag me-2 text-primary"></i><?= htmlspecialchars($category['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <li class="text-white-50">Đang cập nhật...</li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="text-primary mb-3">Newsletter</h5>
-                <p class="text-white-50 small">Đăng ký để nhận bài viết mới nhất về lập trình mỗi tuần</p>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Email của bạn">
-                    <button class="btn btn-primary" type="button">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                <small class="text-white-50">
-                    <i class="fas fa-shield-alt me-1"></i>Chúng tôi tôn trọng quyền riêng tư của bạn
-                </small>
-            </div>
-        </div>
-
-        <!-- Copyright -->
-        <div class="row mt-4 pt-3 border-top border-secondary">
-            <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-white-50">
-                    &copy; <?= date('Y') ?> DevBlog.vn - Made with <i class="fas fa-heart text-danger"></i> by Vietnamese Developers
-                </p>
-            </div>
-            <div class="col-md-6 text-center text-md-end">
-                <a href="#" class="text-white-50 text-decoration-none me-3 hover-link">Privacy Policy</a>
-                <a href="#" class="text-white-50 text-decoration-none me-3 hover-link">Terms of Use</a>
-                <a href="#" class="text-white-50 text-decoration-none hover-link">RSS</a>
-            </div>
-        </div>
+<footer class="journal-footer">
+    <div class="journal-footer-inner">
+        <p class="journal-footer-legal">
+            &copy; <?= date('Y') ?> <?= htmlspecialchars($_ENV['APP_AUTHOR'] ?? 'DevBlog', ENT_QUOTES, 'UTF-8') ?>
+            <span>&middot;</span>
+            <a href="#">Privacy</a>
+            <span>&middot;</span>
+            <a href="#">Terms</a>
+            <span>&middot;</span>
+            <a href="#">Collection notice</a>
+        </p>
     </div>
 </footer>
 
 <!-- Back to Top Button -->
-<a href="#" class="btn btn-primary btn-lg back-to-top">
+<a href="#" class="back-to-top" aria-label="Back to top">
     <i class="fas fa-arrow-up"></i>
 </a>
 
 <style>
+    .journal-footer {
+        background: #f2f2f2;
+        border-top: 1px solid #e1e1e1;
+        color: #7a7a7a;
+        margin-top: 96px;
+        padding: 32px 16px 30px;
+        text-align: center;
+    }
+
+    .journal-footer-inner {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .journal-footer-legal,
+    .journal-footer-note {
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .journal-footer-legal span {
+        color: #9a9a9a;
+        margin: 0 4px;
+    }
+
+    .journal-footer a {
+        color: #757575;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    .journal-footer-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .journal-footer-button {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: #fff;
+        border: 1px solid #dadada;
+        border-radius: 7px;
+        color: #777 !important;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1;
+        padding: 0 16px;
+        text-decoration: none !important;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, .03);
+    }
+
+    .journal-footer-button i {
+        color: #ff6719;
+        font-size: 13px;
+    }
+
+    .journal-footer-note {
+        color: #858585;
+    }
+
     .back-to-top {
         position: fixed;
-        bottom: 30px;
         right: 30px;
-        display: none;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 50px;
+        bottom: 30px;
         z-index: 9999;
+        width: 44px;
+        height: 44px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #ff5a1f;
+        border-radius: 50%;
+        color: #fff;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .16);
     }
 
     .back-to-top:hover {
-        transform: translateY(-5px);
+        background: #f04d16;
+        color: #fff;
     }
 
-    footer a:hover {
-        color: var(--bs-primary) !important;
+    @media (max-width: 575.98px) {
+        .journal-footer {
+            margin-top: 64px;
+            padding: 28px 14px;
+        }
+
+        .journal-footer-actions {
+            flex-direction: column;
+        }
+
+        .journal-footer-button {
+            width: min(100%, 240px);
+        }
     }
 </style>
 
 <script>
-    // Back to top button
     const backToTop = document.querySelector('.back-to-top');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTop.style.display = 'block';
-        } else {
-            backToTop.style.display = 'none';
-        }
-    });
 
-    backToTop.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    if (backToTop) {
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
         });
-    });
+
+        backToTop.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 </script>

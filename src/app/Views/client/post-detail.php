@@ -1,301 +1,418 @@
-<div class="container mt-4 mb-5">
-    <div class="row">
-        <!-- Main Content -->
-        <div class="col-lg-8">
-            <!-- Post Header -->
-            <article class="post-detail">
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb" class="mb-3">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/">Trang chủ</a></li>
-                        <li class="breadcrumb-item">
-                            <a href="<?= BASE_URL ?>/category?id=<?= $post['category_id'] ?>">
-                                <?= htmlspecialchars($post['category_name'] ?? 'Uncategorized', ENT_QUOTES, 'UTF-8') ?>
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <?= htmlspecialchars(mb_substr($post['title'], 0, 50), ENT_QUOTES, 'UTF-8') ?>...
-                        </li>
-                    </ol>
-                </nav>
+<?php
+$postTitle = $post['title'] ?? '';
+$postCategory = $post['category_name'] ?? 'Phần 3';
+$authorName = $post['author_name'] ?? 'Huy Nguyen';
+$authorAvatar = $post['author_avatar'] ?? 'default-avatar.jpg';
+$createdAt = strtotime($post['created_at'] ?? '') ?: time();
+$postUrl = BASE_URL . '/post?id=' . ($post['id'] ?? '');
+$viewCount = (int)($post['views'] ?? 0);
 
-                <!-- Post Title -->
-                <h1 class="post-title mb-3"><?= htmlspecialchars($post['title'], ENT_QUOTES, 'UTF-8') ?></h1>
+$formatAuthor = static function (string $name): string {
+    return mb_strtoupper($name, 'UTF-8');
+};
 
-                <!-- Post Meta -->
-                <div class="post-meta d-flex align-items-center mb-4 pb-3 border-bottom">
-                    <img src="<?= PUBLIC_URL ?>/assets/img/<?= htmlspecialchars($post['author_avatar'] ?? 'default-avatar.jpg', ENT_QUOTES, 'UTF-8') ?>"
-                        class="rounded-circle me-3" width="50" height="50" alt="Author">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center mb-1">
-                            <strong class="me-2"><?= htmlspecialchars($post['author_name'] ?? 'Anonymous', ENT_QUOTES, 'UTF-8') ?></strong>
-                            <span class="badge bg-primary"><?= htmlspecialchars($post['category_name'] ?? 'Tech', ENT_QUOTES, 'UTF-8') ?></span>
-                        </div>
-                        <small class="text-muted">
-                            <i class="fas fa-calendar me-1"></i>
-                            <?= date('d/m/Y H:i', strtotime($post['created_at'])) ?>
-                            <span class="mx-2">•</span>
-                            <i class="fas fa-eye me-1"></i>
-                            <?= number_format($post['views'] ?? 0) ?> lượt xem
-                        </small>
-                    </div>
-                </div>
+$formatDate = static function (int $timestamp): string {
+    return strtoupper(date('M j, Y', $timestamp));
+};
+?>
 
-                <!-- Featured Image -->
-                <?php if (!empty($post['thumbnail'])): ?>
-                    <div class="post-thumbnail mb-4">
-                        <img src="<?= PUBLIC_URL ?>/uploads/<?= htmlspecialchars($post['thumbnail'], ENT_QUOTES, 'UTF-8') ?>"
-                            class="img-fluid rounded shadow-sm"
-                            alt="<?= htmlspecialchars($post['title'], ENT_QUOTES, 'UTF-8') ?>"
-                            style="width: 100%; height: auto; max-height: 500px; object-fit: cover;">
-                    </div>
-                <?php endif; ?>
+<article class="journal-post-detail">
+    <header class="journal-post-header">
+        <h1><?= htmlspecialchars($postTitle, ENT_QUOTES, 'UTF-8') ?></h1>
+        <p class="journal-post-subtitle"><?= htmlspecialchars($postCategory, ENT_QUOTES, 'UTF-8') ?></p>
 
-                <!-- Post Content -->
-                <div class="post-content mb-5">
-                    <?= $post['content'] ?>
-                </div>
-
-                <!-- Post Footer -->
-                <div class="post-footer border-top pt-4 mb-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong class="me-2">Chia sẻ:</strong>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode(BASE_URL . '/post?id=' . $post['id']) ?>"
-                                target="_blank" class="btn btn-sm btn-outline-primary me-2">
-                                <i class="fab fa-facebook-f"></i> Facebook
-                            </a>
-                            <a href="https://twitter.com/intent/tweet?url=<?= urlencode(BASE_URL . '/post?id=' . $post['id']) ?>&text=<?= urlencode($post['title']) ?>"
-                                target="_blank" class="btn btn-sm btn-outline-info me-2">
-                                <i class="fab fa-twitter"></i> Twitter
-                            </a>
-                            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= urlencode(BASE_URL . '/post?id=' . $post['id']) ?>&title=<?= urlencode($post['title']) ?>"
-                                target="_blank" class="btn btn-sm btn-outline-primary">
-                                <i class="fab fa-linkedin-in"></i> LinkedIn
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Author Info -->
-                <div class="author-info card mb-4">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <img src="<?= PUBLIC_URL ?>/assets/img/<?= htmlspecialchars($post['author_avatar'] ?? 'default-avatar.jpg', ENT_QUOTES, 'UTF-8') ?>"
-                                class="rounded-circle me-3" width="80" height="80" alt="Author">
-                            <div>
-                                <h5 class="mb-1"><?= htmlspecialchars($post['author_name'] ?? 'Anonymous', ENT_QUOTES, 'UTF-8') ?></h5>
-                                <p class="text-muted mb-0">
-                                    <small>Tác giả chuyên viết về lập trình và công nghệ</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Related Posts -->
-                <?php if (!empty($relatedPosts)): ?>
-                    <div class="related-posts">
-                        <h3 class="border-bottom pb-3 mb-4">
-                            <i class="fas fa-newspaper me-2"></i>Bài viết liên quan
-                        </h3>
-                        <div class="row g-3">
-                            <?php foreach ($relatedPosts as $relatedPost): ?>
-                                <div class="col-md-4">
-                                    <div class="card h-100 border-0 shadow-sm">
-                                        <?php
-                                        $relatedThumbnail = !empty($relatedPost['thumbnail'])
-                                            ? PUBLIC_URL . '/uploads/' . htmlspecialchars($relatedPost['thumbnail'], ENT_QUOTES, 'UTF-8')
-                                            : PUBLIC_URL . '/assets/img/code-banner.jpg';
-                                        ?>
-                                        <img src="<?= $relatedThumbnail ?>"
-                                            class="card-img-top"
-                                            alt="<?= htmlspecialchars($relatedPost['title'], ENT_QUOTES, 'UTF-8') ?>"
-                                            style="height: 150px; object-fit: cover;">
-                                        <div class="card-body">
-                                            <h6 class="card-title">
-                                                <a href="<?= BASE_URL ?>/post?id=<?= $relatedPost['id'] ?>"
-                                                    class="text-dark text-decoration-none">
-                                                    <?= htmlspecialchars($relatedPost['title'], ENT_QUOTES, 'UTF-8') ?>
-                                                </a>
-                                            </h6>
-                                            <small class="text-muted">
-                                                <i class="fas fa-eye me-1"></i><?= number_format($relatedPost['views'] ?? 0) ?>
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            </article>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="col-lg-4">
-            <!-- Trending Posts -->
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0"><i class="fas fa-fire me-2"></i>Bài viết trending</h5>
-                </div>
-                <div class="list-group list-group-flush">
-                    <?php if (!empty($trendingPosts)): ?>
-                        <?php foreach (array_slice($trendingPosts, 0, 5) as $index => $trendingPost): ?>
-                            <a href="<?= BASE_URL ?>/post?id=<?= $trendingPost['id'] ?>"
-                                class="list-group-item list-group-item-action">
-                                <div class="d-flex">
-                                    <span class="badge bg-danger me-2">#<?= $index + 1 ?></span>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1 small"><?= htmlspecialchars(mb_substr($trendingPost['title'] ?? '', 0, 60), ENT_QUOTES, 'UTF-8') ?></h6>
-                                        <small class="text-muted">
-                                            <i class="fas fa-eye me-1"></i><?= number_format($trendingPost['views'] ?? 0) ?>
-                                        </small>
-                                    </div>
-                                </div>
-                            </a>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <!-- Categories -->
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Danh mục</h5>
-                </div>
-                <div class="list-group list-group-flush">
-                    <?php if (!empty($categories)): ?>
-                        <?php foreach (array_slice($categories, 0, 8) as $category): ?>
-                            <a href="<?= BASE_URL ?>/category?id=<?= $category['id'] ?>"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                <span><?= htmlspecialchars($category['name'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
-                                <span class="badge bg-primary rounded-pill"><?= $category['post_count'] ?? 0 ?></span>
-                            </a>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
+        <div class="journal-post-author">
+            <img src="<?= PUBLIC_URL ?>/assets/img/<?= htmlspecialchars($authorAvatar, ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($authorName, ENT_QUOTES, 'UTF-8') ?>">
+            <div>
+                <span><?= htmlspecialchars($formatAuthor($authorName), ENT_QUOTES, 'UTF-8') ?></span>
+                <time datetime="<?= htmlspecialchars(date('Y-m-d', $createdAt), ENT_QUOTES, 'UTF-8') ?>">
+                    <?= htmlspecialchars($formatDate($createdAt), ENT_QUOTES, 'UTF-8') ?>
+                </time>
             </div>
         </div>
+
+        <div class="journal-post-toolbar">
+            <div class="journal-post-reactions" aria-label="Tương tác bài viết">
+                <button type="button" aria-label="Like">
+                    <i class="far fa-heart"></i>
+                    <span><?= max(1, min(9, $viewCount % 10)) ?></span>
+                </button>
+                <button type="button" aria-label="Comment">
+                    <i class="far fa-comment"></i>
+                </button>
+                <button type="button" aria-label="Repost">
+                    <i class="fas fa-retweet"></i>
+                </button>
+            </div>
+
+            <a class="journal-share-button" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($postUrl) ?>" target="_blank" rel="noopener">
+                Share
+            </a>
+        </div>
+    </header>
+
+    <?php if (!empty($post['thumbnail'])): ?>
+        <figure class="journal-post-cover">
+            <img src="<?= PUBLIC_URL ?>/uploads/<?= htmlspecialchars($post['thumbnail'], ENT_QUOTES, 'UTF-8') ?>"
+                alt="<?= htmlspecialchars($postTitle, ENT_QUOTES, 'UTF-8') ?>">
+        </figure>
+    <?php endif; ?>
+
+    <div class="journal-post-content">
+        <?= $post['content'] ?>
     </div>
-</div>
+
+    <section class="journal-inline-newsletter" id="newsletter">
+        <p>
+            Thanks for reading <?= htmlspecialchars($_ENV['APP_NAME'] ?? 'DevBlog', ENT_QUOTES, 'UTF-8') ?>!<br>
+            Subscribe for free to receive new posts and<br>
+            support my work.
+        </p>
+        <form>
+            <label class="visually-hidden" for="post-detail-email">Email</label>
+            <input id="post-detail-email" type="email" placeholder="Type your email...">
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <?php if (!empty($relatedPosts)): ?>
+        <section class="journal-related-posts">
+            <h2>Read next</h2>
+            <?php foreach (array_slice($relatedPosts, 0, 3) as $relatedPost): ?>
+                <a href="<?= BASE_URL ?>/post?id=<?= $relatedPost['id'] ?>">
+                    <span><?= htmlspecialchars($relatedPost['title'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+                    <small><?= htmlspecialchars($formatDate(strtotime($relatedPost['created_at'] ?? '') ?: time()), ENT_QUOTES, 'UTF-8') ?></small>
+                </a>
+            <?php endforeach; ?>
+        </section>
+    <?php endif; ?>
+</article>
 
 <style>
-    .post-title {
-        font-size: 2.5rem;
-        font-weight: 700;
+    body {
+        background: #fff;
+        color: #363737;
+    }
+
+    .journal-post-detail {
+        max-width: 728px;
+        margin: 0 auto;
+        padding: 32px 24px 0;
+    }
+
+    .journal-post-header h1 {
+        color: #363737;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: 0;
         line-height: 1.2;
-        color: #2c3e50;
+        margin: 0 0 6px;
     }
 
-    .post-meta {
-        font-size: 0.9rem;
+    .journal-post-subtitle {
+        color: #777;
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0 0 18px;
     }
 
-    .post-content {
-        font-size: 1.1rem;
-        line-height: 1.8;
+    .journal-post-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .journal-post-author img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: block;
+        object-fit: cover;
+    }
+
+    .journal-post-author span,
+    .journal-post-author time {
+        display: block;
+        font-family: Arial, Helvetica, sans-serif;
+        letter-spacing: .055em;
+        line-height: 1.35;
+    }
+
+    .journal-post-author span {
         color: #333;
+        font-size: 11px;
+        font-weight: 700;
     }
 
-    .post-content h2 {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+    .journal-post-author time {
+        color: #777;
+        font-size: 11px;
         font-weight: 600;
-        color: #2c3e50;
+        margin-top: 3px;
     }
 
-    .post-content h3 {
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
-        font-weight: 600;
-        color: #34495e;
+    .journal-post-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 16px;
     }
 
-    .post-content p {
-        margin-bottom: 1.5rem;
+    .journal-post-reactions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .post-content ul,
-    .post-content ol {
-        margin-bottom: 1.5rem;
-        padding-left: 2rem;
-    }
-
-    .post-content li {
-        margin-bottom: 0.5rem;
-    }
-
-    .post-content code {
-        background-color: #f8f9fa;
-        padding: 0.2rem 0.4rem;
-        border-radius: 3px;
-        font-size: 0.9em;
-        color: #e83e8c;
-    }
-
-    .post-content pre {
-        background-color: #f8f9fa;
-        padding: 1rem;
-        border-radius: 5px;
-        overflow-x: auto;
-        margin-bottom: 1.5rem;
-    }
-
-    .post-content img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 5px;
-        margin: 1.5rem 0;
-    }
-
-    .post-content blockquote {
-        border-left: 4px solid #3498db;
-        padding-left: 1rem;
-        margin: 1.5rem 0;
-        font-style: italic;
-        color: #7f8c8d;
-    }
-
-    .author-info {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-    }
-
-    .author-info h5 {
-        color: white;
-    }
-
-    .author-info .text-muted {
-        color: rgba(255, 255, 255, 0.8) !important;
-    }
-
-    .card:hover {
-        transform: translateY(-2px);
-        transition: transform 0.3s ease;
-    }
-
-    .breadcrumb {
-        background-color: transparent;
-        padding: 0;
-    }
-
-    .breadcrumb-item a {
-        color: #3498db;
+    .journal-post-reactions button,
+    .journal-share-button {
+        min-width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 999px;
+        color: #6f6f6f;
+        font-size: 14px;
+        line-height: 1;
         text-decoration: none;
     }
 
-    .breadcrumb-item a:hover {
-        text-decoration: underline;
+    .journal-post-reactions button {
+        padding: 0 13px;
     }
 
-    @media (max-width: 768px) {
-        .post-title {
-            font-size: 1.75rem;
+    .journal-post-reactions button:not(:first-child) {
+        width: 40px;
+        padding: 0;
+    }
+
+    .journal-share-button {
+        padding: 0 15px;
+    }
+
+    .journal-post-cover {
+        margin: 22px 0 28px;
+    }
+
+    .journal-post-cover img {
+        width: 100%;
+        max-height: 480px;
+        display: block;
+        object-fit: cover;
+    }
+
+    .journal-post-content {
+        color: #3f3f3f;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 20px;
+        line-height: 1.55;
+    }
+
+    .journal-post-content p {
+        margin: 0 0 24px;
+    }
+
+    .journal-post-content h1,
+    .journal-post-content h2,
+    .journal-post-content h3 {
+        color: #333;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 1.22;
+    }
+
+    .journal-post-content h1,
+    .journal-post-content h2 {
+        font-size: 30px;
+        margin: 34px 0 18px;
+    }
+
+    .journal-post-content h3 {
+        font-size: 24px;
+        margin: 30px 0 14px;
+    }
+
+    .journal-post-content ul,
+    .journal-post-content ol {
+        margin: 0 0 24px;
+        padding-left: 28px;
+    }
+
+    .journal-post-content li {
+        margin-bottom: 9px;
+    }
+
+    .journal-post-content a {
+        color: #333;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .journal-post-content blockquote {
+        border-left: 3px solid #d8d8d8;
+        color: #666;
+        font-style: italic;
+        margin: 28px 0;
+        padding-left: 18px;
+    }
+
+    .journal-post-content code {
+        background: #f5f5f5;
+        border-radius: 4px;
+        color: #333;
+        font-family: Menlo, Consolas, monospace;
+        font-size: .86em;
+        padding: 2px 5px;
+    }
+
+    .journal-post-content pre {
+        background: #f7f7f7;
+        border: 1px solid #e8e8e8;
+        border-radius: 6px;
+        color: #333;
+        font-size: 14px;
+        line-height: 1.55;
+        margin: 26px 0;
+        overflow-x: auto;
+        padding: 16px;
+    }
+
+    .journal-post-content pre code {
+        background: transparent;
+        padding: 0;
+    }
+
+    .journal-post-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 28px auto;
+    }
+
+    .journal-inline-newsletter {
+        max-width: 420px;
+        margin: 30px auto 26px;
+        text-align: center;
+    }
+
+    .journal-inline-newsletter p {
+        color: #3e3e3e;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        line-height: 1.6;
+        margin: 0 0 20px;
+    }
+
+    .journal-inline-newsletter form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 110px;
+        border: 1px solid #ff6a35;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .journal-inline-newsletter input {
+        border: 0;
+        color: #444;
+        font-size: 14px;
+        min-width: 0;
+        outline: 0;
+        padding: 11px 13px;
+    }
+
+    .journal-inline-newsletter input::placeholder {
+        color: #c8c8c8;
+    }
+
+    .journal-inline-newsletter button {
+        background: #ff815e;
+        border: 0;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 0 14px;
+    }
+
+    .journal-related-posts {
+        border-top: 1px solid #e4e4e4;
+        margin-top: 44px;
+        padding-top: 22px;
+    }
+
+    .journal-related-posts h2 {
+        color: #333;
+        font-size: 18px;
+        font-weight: 800;
+        margin: 0 0 12px;
+    }
+
+    .journal-related-posts a {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        color: #3f3f3f;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.35;
+        padding: 13px 0;
+        text-decoration: none;
+        border-bottom: 1px solid #efefef;
+    }
+
+    .journal-related-posts small {
+        color: #777;
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .055em;
+    }
+
+    @media (max-width: 767.98px) {
+        .journal-post-detail {
+            padding: 26px 18px 0;
         }
 
-        .post-content {
-            font-size: 1rem;
+        .journal-post-header h1 {
+            font-size: 30px;
+        }
+
+        .journal-post-toolbar {
+            gap: 16px;
+        }
+
+        .journal-post-content {
+            font-size: 18px;
+        }
+
+        .journal-inline-newsletter p {
+            font-size: 17px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .journal-post-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .journal-inline-newsletter form {
+            grid-template-columns: 1fr;
+        }
+
+        .journal-inline-newsletter button {
+            min-height: 42px;
+        }
+
+        .journal-related-posts a {
+            flex-direction: column;
+            gap: 4px;
         }
     }
 </style>
