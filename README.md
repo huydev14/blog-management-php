@@ -1,6 +1,6 @@
 # DevBlog CMS
 
-A modern blog management system built with PHP MVC architecture, featuring a comprehensive admin panel with full CRUD operations for users, posts, and categories management.
+A blog management system built with PHP MVC architecture, featuring an admin panel for managing posts, categories, users, and authentication flows.
 
 ![PHP](https://img.shields.io/badge/PHP-8.2%2B-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-active-success)
@@ -70,6 +70,13 @@ A modern blog management system built with PHP MVC architecture, featuring a com
 - Bcrypt password hashing
 - Secure file upload validation
 
+### Centralized Error Logging
+
+- Centralized application logging via `Core\\Logger`
+- Controller actions are wrapped with centralized try/catch handling
+- Runtime errors are written to `storage/logs/app.log`
+- Mail, database, and unhandled request errors are logged in one place
+
 ## Tech Stack
 
 **Backend:** PHP, MySQL, PDO, Composer (Dotenv, PHPMailer)  
@@ -77,25 +84,25 @@ A modern blog management system built with PHP MVC architecture, featuring a com
 
 ## Installation
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/huydev14/devblog-cms-php.git
-cd devblog-cms-php
+git clone https://github.com/huydev14/blog-management-php.git
+cd blog
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 composer install
 ```
 
-### 3. Configure Environment
+### 3. Configure environment
 
 Copy the example environment file and edit it:
 
 ```bash
- # Copy .env.example to .env
+# Copy .env.example to .env
 cp .env.example .env
 ```
 
@@ -104,13 +111,14 @@ Update the following settings in `.env`:
 ```env
 # Database Configuration
 DB_HOST=localhost
-DB_NAME=devblog_db
+DB_PORT=3306
+DB_NAME=blog
 DB_USER=root
-DB_PASS=your_password
+DB_PASS=
 
 # Application URL
-BASE_URL=http://localhost/devblog-cms-php
-APP_BASE_PATH=/devblog-cms-php
+BASE_URL=http://localhost/blog
+APP_BASE_PATH=/blog
 
 # Mail Configuration (for email features)
 MAIL_HOST=smtp.gmail.com
@@ -126,18 +134,26 @@ If you want to enable email features:
 2. Generate an App Password: https://myaccount.google.com/apppasswords
 3. Use the generated 16-character password in `MAIL_PASS`
 
-### 4. Setup Database
+### 4. Setup database
 
-**phpMyAdmin**
+Create and import database:
 
-1. Open phpMyAdmin
-2. Create a new database named `devblog_db`
-3. Import the file `database/devblog_db.sql`
+1. Create database named `blog`
+2. Import SQL dump file `database/blog.sql`
 
-### 5. Access the Application
+### 5. Prepare writable storage
+
+Make sure the logs directory is writable by your web server:
+
+```bash
+mkdir -p storage/logs
+chmod -R 775 storage
+```
+
+### 6. Access the application
 
 1. Make sure Apache is running in XAMPP/WAMP
-2. Open your browser and navigate to: `http://localhost/devblog-cms-php/`
+2. Open your browser and navigate to: `http://localhost/blog/`
 3. Login with the default admin account:
 
 ### Default Accounts
@@ -148,12 +164,27 @@ The system comes with pre-configured test accounts:
 | ------ | ------------------ | -------- | ------------------ |
 | Admin  | admin@devblog.com  | 123456   | Full system access |
 | Editor | editor@devblog.com | 123456   | Content management |
-| Author | huydev@gmail.com   | 123456   | Post creation      |
+| Author | minhdev@gmail.com  | 123456   | Post creation      |
+
+## Logging
+
+- Main log file: `storage/logs/app.log`
+- Typical logged events:
+  - Controller runtime exceptions
+  - Database connection errors
+  - Mail send/configuration errors
+  - Unhandled request exceptions
+
+Quick check:
+
+```bash
+tail -f storage/logs/app.log
+```
 
 ## 📁 Project Structure
 
 ```
-devblog-cms-php/
+blog/
 ├── database/           # SQL file testing dump
 ├── public/             # index.php, assets, .htaccess
 ├── routes/             # Route definition
@@ -164,9 +195,11 @@ devblog-cms-php/
 │   │   ├── Views/         # Templates (layouts, emails)
 │   │   ├── Middlewares/   # Authentication guard
 │   │   └── Services/      # Mail Service, File Upload Service
-│   ├── Core/              # Core files (Router, Controller, Model, View, Database)
+│   ├── Core/              # Core files (Router, Controller, Model, View, Database, Logger)
 │   ├── configs/           # Configuration file
 │   └── helpers/           # Helper functions
+├── storage/
+│   └── logs/              # Centralized log files
 ├── vendor/                # Composer dependencies
 ├── .env                   # Environment config
 ```
@@ -181,9 +214,11 @@ Enable detailed error messages in `.env`:
 APP_DEBUG=true
 ```
 
-## 📝 License
+Disable in production:
 
-This project is licensed under the MIT License.
+```env
+APP_DEBUG=false
+```
 
 ## 👤 Author
 
@@ -191,7 +226,3 @@ This project is licensed under the MIT License.
 
 - GitHub: [@huydev14](https://github.com/huydev14)
 - Email: huydev14@gmail.com
-
----
-
-<p align="center">Made with ❤️ by Tran Gia Huy</p>
