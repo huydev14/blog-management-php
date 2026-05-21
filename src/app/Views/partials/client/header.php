@@ -9,6 +9,7 @@ if ($basePath !== '' && str_starts_with($currentPath, $basePath)) {
 
 $currentPath = '/' . ltrim($currentPath, '/');
 $isArchive = $currentPath === '/archive';
+$isAbout = $currentPath === '/about';
 $isHome = $currentPath === '/';
 ?>
 <header class="journal-site-header">
@@ -38,6 +39,6 @@ $isHome = $currentPath === '/';
     <nav class="journal-nav" aria-label="Điều hướng chính">
         <a class="<?= $isHome ? 'active' : '' ?>" href="<?= BASE_URL ?>">Home</a>
         <a class="<?= $isArchive ? 'active' : '' ?>" href="<?= BASE_URL ?>/archive">Archive</a>
-        <a href="#newsletter">About</a>
+        <a class="<?= $isAbout ? 'active' : '' ?>" href="<?= BASE_URL ?>/about">About</a>
     </nav>
 </header>

@@ -1205,6 +1205,187 @@ code {
 }
 /*** Journal Archive End ***/
 
+/*** Journal About Start ***/
+.journal-about-page {
+	max-width: 680px;
+	margin: 0 auto;
+	padding: 34px 24px 0;
+	color: #383838;
+}
+
+.journal-about-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 116px;
+	gap: 28px;
+	align-items: center;
+	margin-bottom: 42px;
+}
+
+.journal-about-kicker {
+	color: #ff5a1f;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: .08em;
+	line-height: 1;
+	margin: 0 0 12px;
+	text-transform: uppercase;
+}
+
+.journal-about-hero h1 {
+	color: #333;
+	font-size: 38px;
+	font-weight: 800;
+	letter-spacing: 0;
+	line-height: 1.12;
+	margin: 0 0 10px;
+}
+
+.journal-about-hero p {
+	color: #666;
+	font-size: 18px;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.journal-about-hero img {
+	width: 116px;
+	height: 116px;
+	border-radius: 50%;
+	display: block;
+	object-fit: cover;
+	border: 1px solid #e5e5e5;
+}
+
+.journal-about-section {
+	border-top: 1px solid #e5e5e5;
+	padding: 24px 0;
+}
+
+.journal-about-section h2 {
+	color: #333;
+	font-size: 21px;
+	font-weight: 800;
+	line-height: 1.25;
+	margin: 0 0 13px;
+}
+
+.journal-about-section p {
+	color: #555;
+	font-size: 15px;
+	line-height: 1.75;
+	margin: 0 0 12px;
+}
+
+.journal-about-timeline {
+	display: grid;
+	gap: 18px;
+}
+
+.journal-about-timeline article {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 24px;
+}
+
+.journal-about-timeline h3,
+.journal-about-projects h3 {
+	color: #333;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.25;
+	margin: 0 0 5px;
+}
+
+.journal-about-timeline p {
+	font-size: 14px;
+	margin: 0;
+}
+
+.journal-about-timeline span {
+	color: #777;
+	flex: 0 0 auto;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .055em;
+	line-height: 1.4;
+	text-align: right;
+}
+
+.journal-about-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 9px;
+}
+
+.journal-about-tags span {
+	border: 1px solid #dedede;
+	border-radius: 999px;
+	color: #444;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
+	padding: 9px 13px;
+}
+
+.journal-about-projects {
+	display: grid;
+	gap: 14px;
+}
+
+.journal-about-projects article {
+	border: 1px solid #e5e5e5;
+	border-radius: 8px;
+	padding: 16px;
+}
+
+.journal-about-projects p {
+	font-size: 14px;
+	margin-bottom: 12px;
+}
+
+.journal-about-projects a,
+.journal-about-source a {
+	color: #333;
+	font-size: 13px;
+	font-weight: 800;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.journal-about-source {
+	color: #777;
+	font-size: 13px;
+	margin: 20px 0 0;
+	text-align: center;
+}
+
+@media (max-width: 575.98px) {
+	.journal-about-page {
+		padding: 28px 18px 0;
+	}
+
+	.journal-about-hero {
+		grid-template-columns: 1fr;
+	}
+
+	.journal-about-hero img {
+		order: -1;
+		width: 86px;
+		height: 86px;
+	}
+
+	.journal-about-timeline article {
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.journal-about-timeline span {
+		text-align: left;
+	}
+}
+/*** Journal About End ***/
+
 /*** Footer Start ***/
 .back-to-top {
 	position: fixed;

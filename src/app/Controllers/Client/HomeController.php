@@ -51,4 +51,16 @@ final class HomeController extends Controller
 
         $this->view->render('client/archive', 'client', $data);
     }
+
+    public function about(): void
+    {
+        $categories = $this->homeModel->getCategories();
+
+        $data = [
+            'headerData' => ['title' => 'About - DevBlog'],
+            'categories' => $categories,
+        ];
+
+        $this->view->render('client/about', 'client', $data);
+    }
 }
