@@ -415,10 +415,25 @@
 	--primary-color: #0d6efd;
 	--dark-color: #212529;
 	--light-gray: #f8f9fa;
+	--font-family-text-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	--font-family-text: var(--font-family-text-base);
+	--font-family-title-base: "SF Pro Display", -apple-system-headline, var(--font-family-text);
+	--font-family-title: var(--font-family-title-base);
+	--font-family-serif: -apple-system-ui-serif, ui-serif, "Spectral", "Georgia", serif;
+	--font-family-meta: "SF Compact", -apple-system, var(--font-family-text);
+	--font-family-digit: "Jetbrains Mono", monospace;
+	--font-family-monospace: monospace;
+	--font-family-emoji: "Twemoji Mozilla", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif;
+	--font-family-pub-headings: var(--font_family_headings, var(--font_family_headings_preset, var(--font-family-title)));
+	--font-family-pub-body: var(--font_family_body, var(--font_family_body_preset, var(--font-family-text)));
+	--font-family-pub-section-headings: var(--font_family_section_headings_preset, var(--font-family-pub-headings));
+	--font-family-themed-headings: var(--font-family-pub-headings);
+	--font-family-themed-body: var(--font-family-pub-body);
+	--font-family-mono: Roboto, Arial, Helvetica, sans-serif;
 }
 
 body {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: var(--font-family-text);
 	line-height: 1.6;
 }
 
@@ -460,13 +475,14 @@ pre {
 	padding: 1rem;
 	border-radius: 5px;
 	overflow-x: auto;
+	font-family: var(--font-family-digit);
 }
 
 code {
 	background: #f4f4f4;
 	padding: 2px 6px;
 	border-radius: 3px;
-	font-family: 'Courier New', monospace;
+	font-family: var(--font-family-monospace);
 	color: #e83e8c;
 }
 
@@ -521,6 +537,7 @@ code {
 	text-align: center;
 	text-decoration: none;
 	white-space: nowrap;
+	font-family: var(--font-family-title);
 }
 
 .journal-brand:hover,
@@ -664,7 +681,7 @@ code {
 .journal-home body {
 	background: #fff;
 	color: #373737;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: var(--font-family-text);
 }
 
 .journal-home main {
@@ -714,6 +731,7 @@ code {
 	line-height: 1.22;
 	text-decoration: none;
 	margin-bottom: 9px;
+	font-family: var(--font-family-title);
 }
 
 .journal-home .journal-feature-title:hover,
@@ -734,7 +752,6 @@ code {
 	color: #757575;
 	display: block;
 	font-size: 11px;
-	font-weight: 600;
 	letter-spacing: .055em;
 	line-height: 1.4;
 }
@@ -802,18 +819,18 @@ code {
 .journal-home .journal-post-title {
 	color: #3a3a3a;
 	display: block;
-	font-size: 20px;
-	font-weight: 800;
+	font-size: 18px;
+	font-weight: 600;
 	line-height: 1.24;
 	text-decoration: none;
 	margin-bottom: 4px;
+	font-family: var(--font-family-title);
 }
 
 .journal-home .journal-post-body p {
 	color: #3f3f3f;
-	font-size: 15px;
-	line-height: 1.45;
-	margin: 0 0 5px;
+	font-size: 13px;
+	line-height: 1.7;
 }
 
 .journal-home .journal-post-thumb {
@@ -850,6 +867,7 @@ code {
 	font-weight: 800;
 	line-height: 1.25;
 	margin: 0 0 6px;
+	font-family: var(--font-family-title);
 }
 
 .journal-home .journal-author-card p {
@@ -901,6 +919,7 @@ code {
 	font-size: 14px;
 	font-weight: 800;
 	margin: 0 0 10px;
+	font-family: var(--font-family-title);
 }
 
 .journal-home .journal-mini-list a {
@@ -1016,6 +1035,176 @@ code {
 }
 /*** Journal Home End ***/
 
+/*** Journal Archive Start ***/
+.journal-archive-page {
+	max-width: 470px;
+	margin: 0 auto;
+	padding: 24px 0 0;
+	color: #3a3a3a;
+}
+
+.journal-archive-tools {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 24px;
+}
+
+.journal-archive-tabs {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	border: 1px solid #dedede;
+	border-radius: 8px;
+	padding: 3px;
+}
+
+.journal-archive-tabs a {
+	color: #777;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
+	padding: 9px 10px;
+	text-decoration: none;
+}
+
+.journal-archive-tabs a.active {
+	background: #efefef;
+	color: #3a3a3a;
+}
+
+.journal-archive-search {
+	width: 40px;
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: 0;
+	color: #333;
+	font-size: 18px;
+	padding: 0;
+}
+
+.journal-archive-feature,
+.journal-archive-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 160px;
+	gap: 24px;
+	align-items: center;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 18px 0 16px;
+}
+
+.journal-archive-feature {
+	padding-top: 0;
+}
+
+.journal-archive-title {
+	color: #3a3a3a;
+	display: block;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.25;
+	margin-bottom: 4px;
+	text-decoration: none;
+}
+
+.journal-archive-title:hover {
+	color: #111;
+}
+
+.journal-archive-feature p,
+.journal-archive-row p {
+	margin-top: 13px;
+	color: #424242;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.journal-archive-feature span,
+.journal-archive-row span {
+	color: #757575;
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .055em;
+	line-height: 1.4;
+}
+
+.journal-archive-thumb {
+	width: 160px;
+	height: 88px;
+	display: block;
+	overflow: hidden;
+	background: #f3f3f3;
+}
+
+.journal-archive-feature-thumb {
+	height: 107px;
+	border-radius: 4px;
+}
+
+.journal-archive-thumb img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+}
+
+.journal-archive-month {
+	color: #ff5a1f;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .055em;
+	line-height: 1;
+	margin: 16px 0 18px;
+	text-transform: uppercase;
+}
+
+.journal-archive-empty {
+	border-top: 1px solid #e5e5e5;
+	padding: 40px 0;
+	text-align: center;
+}
+
+.journal-archive-empty h2 {
+	color: #333;
+	font-size: 22px;
+	font-weight: 800;
+	margin: 0 0 6px;
+}
+
+.journal-archive-empty p {
+	color: #777;
+	margin: 0;
+}
+
+@media (max-width: 575.98px) {
+	.journal-archive-page {
+		max-width: none;
+		padding: 20px 18px 0;
+	}
+
+	.journal-archive-feature,
+	.journal-archive-row {
+		grid-template-columns: 1fr 112px;
+		gap: 16px;
+	}
+
+	.journal-archive-thumb,
+	.journal-archive-feature-thumb {
+		width: 112px;
+		height: 78px;
+	}
+
+	.journal-archive-title {
+		font-size: 18px;
+	}
+}
+/*** Journal Archive End ***/
+
 /*** Footer Start ***/
 .back-to-top {
 	position: fixed;
@@ -1048,6 +1237,7 @@ footer .footer-section h5 {
 	font-weight: 600;
 	font-size: 14px;
 	letter-spacing: 0.5px;
+	font-family: var(--font-family-title);
 }
 
 footer .footer-links a {

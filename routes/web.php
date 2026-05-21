@@ -56,6 +56,7 @@ $router->get('/users/delete', 'UserController@delete');
 
 // Public routes
 $router->get('/', 'HomeController@index');
+$router->get('/archive', 'HomeController@archive');
 $router->get('/post', 'PostController@show');
 
 // For debug

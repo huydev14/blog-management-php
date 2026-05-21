@@ -37,4 +37,18 @@ final class HomeController extends Controller
 
         $this->view->render('client/home', 'client', $data);
     }
+
+    public function archive(): void
+    {
+        $archivePosts = $this->homeModel->getArchivePosts(50);
+        $categories = $this->homeModel->getCategories();
+
+        $data = [
+            'headerData' => ['title' => 'Archive - DevBlog'],
+            'archivePosts' => $archivePosts,
+            'categories' => $categories,
+        ];
+
+        $this->view->render('client/archive', 'client', $data);
+    }
 }

@@ -15,6 +15,27 @@ final class Home extends Model
     {
         $limit = max(1, (int) $limit);
         
+        $sql = "SELECT
+                    p.*,
+                    u.fullname as author_name,
+                    u.avatar as author_avatar,
+                    c.name as category_name
+                FROM posts p
+                LEFT JOIN users u ON p.author_id = u.id
+                LEFT JOIN categories c ON p.category_id = c.id
+                ORDER BY p.created_at DESC
+                LIMIT {$limit}";
+
+        return $this->getAll($sql);
+    }
+
+    /**
+     * Get posts for archive page
+     */
+    public function getArchivePosts(int $limit = 50): array
+    {
+        $limit = max(1, (int) $limit);
+
         $sql = "SELECT 
                     p.*,
                     u.fullname as author_name,

@@ -73,7 +73,7 @@ class Router
 
     private function resolveControllerClass(string $url, string $controller): string
     {
-        $publicRoutes = ['/', '/post', '/category', '/search'];
+        $publicRoutes = ['/', '/post', '/archive', '/category', '/search'];
         $namespace = in_array($url, $publicRoutes)
             ? 'App\\Controllers\\Client\\'
             : 'App\\Controllers\\Admin\\';

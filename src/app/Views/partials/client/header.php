@@ -1,4 +1,16 @@
 <!-- Journal Navigation -->
+<?php
+$currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+$basePath = defined('APP_BASE_PATH') ? APP_BASE_PATH : '';
+
+if ($basePath !== '' && str_starts_with($currentPath, $basePath)) {
+    $currentPath = substr($currentPath, strlen($basePath)) ?: '/';
+}
+
+$currentPath = '/' . ltrim($currentPath, '/');
+$isArchive = $currentPath === '/archive';
+$isHome = $currentPath === '/';
+?>
 <header class="journal-site-header">
     <div class="journal-topbar">
         <a class="journal-avatar-link" href="<?= BASE_URL ?>" aria-label="Trang chủ">
@@ -24,9 +36,8 @@
     </div>
 
     <nav class="journal-nav" aria-label="Điều hướng chính">
-        <a class="active" href="<?= BASE_URL ?>">Home</a>
-        <a href="#">Notes</a>
-        <a href="#">Archive</a>
+        <a class="<?= $isHome ? 'active' : '' ?>" href="<?= BASE_URL ?>">Home</a>
+        <a class="<?= $isArchive ? 'active' : '' ?>" href="<?= BASE_URL ?>/archive">Archive</a>
         <a href="#newsletter">About</a>
     </nav>
 </header>
