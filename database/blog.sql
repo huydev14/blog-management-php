@@ -18,8 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `blog_manager_db`
+-- Database: `blog`
 --
+
+CREATE DATABASE IF NOT EXISTS `blog`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+USE `blog`;
 
 -- --------------------------------------------------------
 
@@ -192,8 +197,7 @@ CREATE TRIGGER `after_post_delete` AFTER DELETE ON `posts` FOR EACH ROW BEGIN
         SET post_count = post_count - 1 
         WHERE id = OLD.category_id;
     END IF;
-END
-$$
+END$$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `after_post_insert` AFTER INSERT ON `posts` FOR EACH ROW BEGIN
@@ -202,8 +206,7 @@ CREATE TRIGGER `after_post_insert` AFTER INSERT ON `posts` FOR EACH ROW BEGIN
         SET post_count = post_count + 1 
         WHERE id = NEW.category_id;
     END IF;
-END
-$$
+END$$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `after_post_update` AFTER UPDATE ON `posts` FOR EACH ROW BEGIN
@@ -223,8 +226,7 @@ CREATE TRIGGER `after_post_update` AFTER UPDATE ON `posts` FOR EACH ROW BEGIN
             WHERE id = NEW.category_id;
         END IF;
     END IF;
-END
-$$
+    END$$
 DELIMITER ;
 
 -- --------------------------------------------------------
