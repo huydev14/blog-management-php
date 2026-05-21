@@ -27,49 +27,73 @@ class Router
     {
         $url = $url ?: '/'; // If url is empty, return '/'
         $method = strtoupper((string)$method); // normalize method
+        $statusCode = 0;
+        $message = '';
 
         if (!isset($this->routers[$method][$url])) {
-            http_response_code(404);
-            echo '404 ERROR';
-            return;
+            $statusCode = 404;
+            $message = '404 ERROR';
+        } else {
+            [$statusCode, $message] = $this->resolveAction($url, $this->routers[$method][$url]);
         }
 
-        $action = $this->routers[$method][$url];
+        if ($statusCode > 0) {
+            $this->respondError($statusCode, $message);
+        }
+    }
 
-        // action must be Controller@Method
+    private function resolveAction(string $url, string $action): array
+    {
+        $statusCode = 0;
+        $message = '';
+
         if (strpos($action, '@') === false) {
-            http_response_code(500);
-            echo 'Invalid route action';
-            return;
+            $statusCode = 500;
+            $message = 'Invalid route action';
+        } else {
+            [$controller, $func] = explode('@', $action, 2);
+            $fqcn = $this->resolveControllerClass($url, $controller);
+
+            if (!class_exists($fqcn)) {
+                $statusCode = 500;
+                $message = 'Controller class not found: ' . $fqcn;
+            } else {
+                $instance = new $fqcn();
+                if (!method_exists($instance, $func)) {
+                    $statusCode = 404;
+                    $message = 'Action not found';
+                } else {
+                    $this->invokeController($instance, $func);
+                }
+            }
         }
 
-        [$controller, $func] = explode('@', $action, 2);
+        return [$statusCode, $message];
+    }
 
-        // Define public routes that use Client controllers
+    private function resolveControllerClass(string $url, string $controller): string
+    {
         $publicRoutes = ['/', '/post', '/category', '/search'];
-
-        // choose controller folder based on URL
-        // If URL is in public routes, use Client namespace, otherwise Admin
         $namespace = in_array($url, $publicRoutes)
             ? 'App\\Controllers\\Client\\'
             : 'App\\Controllers\\Admin\\';
 
-        $fqcn = $namespace . $controller; // e.g. App\Controllers\Admin\AuthController
+        return $namespace . $controller;
+    }
 
-        if (!class_exists($fqcn)) {
-            http_response_code(500);
-            echo 'Controller class not found: ' . $fqcn;
-            return;
-        }
-
-        $instance = new $fqcn();
-
-        if (!method_exists($instance, $func)) {
-            http_response_code(404);
-            echo 'Action not found';
+    private function invokeController(object $instance, string $func): void
+    {
+        if ($instance instanceof Controller) {
+            $instance->executeAction($func);
             return;
         }
 
         $instance->$func();
+    }
+
+    private function respondError(int $statusCode, string $message): void
+    {
+        http_response_code($statusCode);
+        echo $message;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Client;
 
 use Core\Controller;
+use Core\Logger;
 use App\Models\Post;
 use App\Models\Home;
 
@@ -72,7 +73,7 @@ final class PostController extends Controller
             $stmt = $pdo->prepare($sql);
             $stmt->execute([':id' => $postId]);
         } catch (\Exception $e) {
-            error_log("Error incrementing views: " . $e->getMessage());
+            Logger::error('Error incrementing views', ['message' => $e->getMessage(), 'post_id' => $postId]);
         }
     }
 
@@ -83,7 +84,7 @@ final class PostController extends Controller
             return [];
         }
 
-        $sql = "SELECT 
+        $sql = "SELECT
                     p.*,
                     u.fullname as author_name,
                     u.avatar as author_avatar,
@@ -91,7 +92,7 @@ final class PostController extends Controller
                 FROM posts p
                 LEFT JOIN users u ON p.author_id = u.id
                 LEFT JOIN categories c ON p.category_id = c.id
-                WHERE p.category_id = :categoryId 
+                WHERE p.category_id = :categoryId
                   AND p.id != :currentId
                 ORDER BY p.created_at DESC
                 LIMIT {$limit}";
@@ -105,7 +106,11 @@ final class PostController extends Controller
             ]);
             return $stmt->fetchAll();
         } catch (\Exception $e) {
-            error_log("Error fetching related posts: " . $e->getMessage());
+            Logger::error('Error fetching related posts', [
+                'message' => $e->getMessage(),
+                'category_id' => $categoryId,
+                'current_post_id' => $currentPostId
+            ]);
             return [];
         }
     }
