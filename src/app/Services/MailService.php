@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Core\Logger;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -124,9 +125,7 @@ class MailService
      */
     private function logError($message)
     {
-        $logFile = __DIR__ . '/../../../storage/logs/mail.log';
-        $timestamp = date('Y-m-d H:i:s');
-        file_put_contents($logFile, "[{$timestamp}] {$message}\n", FILE_APPEND);
+        Logger::error('Mail error', ['message' => $message]);
     }
 
     /**

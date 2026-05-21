@@ -1,6 +1,7 @@
 <?php
 
 use Core\Router;
+use Core\Logger;
 
 // Define ROOT_PATH
 define('ROOT_PATH', dirname(__DIR__)); // Project root
@@ -47,8 +48,7 @@ $requestUri = '/' . ltrim($requestUri, '/');
 try {
     $router->dispatch($_SERVER['REQUEST_METHOD'], $requestUri);
 } catch (Exception $e) {
-    // Log error
-    error_log($e->getMessage());
+    Logger::error('Unhandled exception', ['message' => $e->getMessage()]);
 
     // Show error page
     if ($_ENV['APP_DEBUG'] === 'true') {

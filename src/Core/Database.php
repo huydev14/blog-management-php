@@ -6,6 +6,7 @@ namespace Core;
 
 use PDO;
 use PDOException;
+use Core\Logger;
 
 /** Database connection */
 class Database
@@ -37,8 +38,7 @@ class Database
             );
             return self::$pdoInstance;
         } catch (PDOException $e) {
-            // Log error to file
-            error_log('Database connection failed: ' . $e->getMessage());
+            Logger::error('Database connection failed', ['message' => $e->getMessage()]);
 
             // Throw exception to be handled by caller
             throw new PDOException('Could not connect to database. Please check your configuration.');
